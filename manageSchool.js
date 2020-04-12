@@ -4,7 +4,8 @@ let spells = require('./spells')
 let playerOne = {
   name: "Gino",
   description: "He is a slytherin ",
-  score: 50,
+  health: 50,
+  score: 0,
   animal: "cat",
   house: "slytherin ",
   caract: {
@@ -19,7 +20,8 @@ let playerOne = {
 }
 let playerTwo = {
   name: "Carl",
-  score: 50,
+  health: 50,
+  score: 0,
   animal: "frog",
   description: "He is a ravenclaw",
   house: "ravenclaw",
@@ -36,7 +38,8 @@ let playerTwo = {
 }
 let playerThree = {
   name: "Pete",
-  score: 50,
+  health: 50,
+  score: 0,
   animal: "rat",
   description: "He is a Gryffindor",
   house: "Gryffindor",
@@ -52,7 +55,8 @@ let playerThree = {
 }
   let playerFour = {
     name: "Sanchez",
-    score: 50,
+    health: 50,
+    score: 0,
     animal: "Owl",
     description: "He is a hufflepuff",
     house: "hufflepuff",
@@ -194,6 +198,7 @@ let school = {
     player = readline.question("Which players do you want to be? (Pete|Sanchez|Gino|Carl) ")
     for(let i = 0; i < school.topPlayers.length; i++){
       if(school.topPlayers[i].name === player){
+        player = school.topPlayers[i];
          return player;
       }
     }
@@ -230,43 +235,43 @@ let school = {
    },
 
 /**
- * 
+ * function do a main Menu Match into The Main Menu
  *
- */
-  getADuel(){
-     let match = "";
-       let myPlayer = this.getMyPlayer();
-       let theOponent = this.getTheOponent();
-       if(myPlayer !== theOponent){
-         console.log("My player is: " + myPlayer)
-         console.log("Your Oponent will be : " + theOponent);
-         console.log("*************")
-         match += myPlayer + " VS " + theOponent;
-        return match;
-       }else {
-         this.getTheOponent();
-       } 
-  }, 
- 
+*/
   menuMatch(){
     let actions = -1;
     while(actions !== 0){
       this.displayMatchMenu()
-      let actions = readline.questionInt("What do you want to do? ")       
+      let actions = readline.questionInt("What do you want to do? ")
+      let myPlayer = this.getMyPlayer.myPlayer;
+      let theOponent = "";        
         switch(actions){
           case 0: console.log("Back to The Menu")
           break;
+
           case 1:
             console.log("You are in the Match Mode!")
             console.log("***********")
-            let duel = this.getADuel()
-            console.log(duel)
-            // let myPlayer = this.getADuel.myPlayer
-            let theOponent = this.getTheOponent()
+            let match = "";
+             myPlayer = this.getMyPlayer(); // myPlayer is an Object
+             theOponent = this.getTheOponent();
+             console.log(theOponent);
+            if(myPlayer !== theOponent){
+              console.log("My player is: " + myPlayer.name)
+              console.log("Your Oponent will be : " + theOponent);
+              console.log("*************")
+              match += myPlayer.name + " VS " + theOponent;
+              
+            }else {
+              this.getTheOponent();
+            } 
+            console.log(match);
             console.log("*************************************")
             console.log("*********** LET'S FIGHT! ************")
           break;
+
           case 2:
+          
           this.attack(myPlayer, theOponent)
           break;
           case 3: 
@@ -294,9 +299,9 @@ let school = {
     console.log(display)
   },
   /**
-   * 
-   * @param {*} player 
-   * @param {*} oponent 
+   * function to allow an attack in a match
+   * @param {Object} player the player the user choosen among topPlayers
+   * @param {Object} oponent the random oponent from topPlayers
    */
   attack(player, oponent){
     let actions = -1;
@@ -308,9 +313,11 @@ let school = {
         break;
         case 1: console.log("Expelliarmus!!")
         
-        this.experliamus(player, oponent)
+        spells.experliamus(player, oponent)
         console.log("Score of " + player.name + " is :" + player.score)
+        console.log("Health of " + player.name + " is :" + player.Health)
         console.log("Score of " + player.name + " is :" + oponent.score)
+        console.log("Score of " + player.Health + " is :" + oponent.Health)
         break;
         case 2: console.log("Bombata maxima!!")
         break;
@@ -393,7 +400,7 @@ let school = {
         break;
         case 1: console.log("Reparo!!")
         break;
-        case 2: console.log("renervate!")
+        case 2: console.log("Renervate!")
         break;
         default : console.log("not found")
       }
